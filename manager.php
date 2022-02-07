@@ -19,26 +19,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php
-                try {
-                    $bdd = new PDO('mysql:host=localhost;dbname=marmitop;charset=utf8', 'root', '5MichelAnnecy', array(PDO::ATTR_ERRMODE => PDO:: ERRMODE_EXCEPTION));
-                }
-                catch (Exception $e) {
-                    die('Erreur : ' . $e->getMessage());
-                }
-                $reponse = $bdd->query('SELECT id,nom FROM recette');
-                while ($donnees = $reponse->fetch())
-                {
-                    ?>
                     <tr>
-                        <th scope="row"><?php echo $donnees['id'] ?></th>
-                        <td><?php echo $donnees['nom'] ?></td>
-                        <td><a href="deleterecipe.php?id=<?php echo $donnees['id']?>"><button class="btn btn-warning">Supprimer</button></a></td>
+                        <th scope="row">1</th>
+                        <td>Le nom de la recette</td>
+                        <td><a href="#"><button class="btn btn-warning">Supprimer</button></a></td>
                     </tr>
-                    <?php
-                }
-                $reponse->closeCursor()
-                ?>
                 </tbody>
             </table>
         </div>
@@ -47,10 +32,10 @@
         <h2>Ajouter un film</h2>
     </div>
     <div class="row m-3 align-items-center">
-        <form action="addrecipe.php" method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
             <div class="row mb-1 align-items-center">
                 <div class="col-2 text-end">
-                    <label class="col-form-label" for="titre">Nom de la recette :</label>
+                    <label class="col-form-label" for="nom">Nom de la recette :</label>
                 </div>
                 <div class="col-10">
                     <input class="form-control" type="text" id="nom" name="nom" required>
@@ -118,6 +103,7 @@
                 </div>
                 <form>
             </div>
+        </form>
     </div>
 </div>
 
