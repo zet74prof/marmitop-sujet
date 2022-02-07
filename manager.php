@@ -33,7 +33,7 @@
                     <tr>
                         <th scope="row"><?php echo $donnees['id'] ?></th>
                         <td><?php echo $donnees['nom'] ?></td>
-                        <td><a href="deletemovie.php?id=<?php echo $donnees['id']?>"><button class="btn btn-warning">Supprimer</button></a></td>
+                        <td><a href="deleterecipe.php?id=<?php echo $donnees['id']?>"><button class="btn btn-warning">Supprimer</button></a></td>
                     </tr>
                     <?php
                 }
