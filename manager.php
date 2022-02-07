@@ -2,92 +2,126 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/knacss.min.css">
-    <link rel="stylesheet" href="css/indexSansGrid.css">
-    <link rel="stylesheet" href="css/moviemanager.css" />
-    <title>Movie manager</title>
+    <title>Recipe Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-<section>
-    <div>
-        <h1>Gestion des recettes Marmitop</h1>
+<h1 class="text-center">Gestion des recettes</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Recette</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                try {
+                    $bdd = new PDO('mysql:host=localhost;dbname=marmitop;charset=utf8', 'root', '5MichelAnnecy', array(PDO::ATTR_ERRMODE => PDO:: ERRMODE_EXCEPTION));
+                }
+                catch (Exception $e) {
+                    die('Erreur : ' . $e->getMessage());
+                }
+                $reponse = $bdd->query('SELECT id,nom FROM recette');
+                while ($donnees = $reponse->fetch())
+                {
+                    ?>
+                    <tr>
+                        <th scope="row"><?php echo $donnees['id'] ?></th>
+                        <td><?php echo $donnees['nom'] ?></td>
+                        <td><a href="deletemovie.php?id=<?php echo $donnees['id']?>"><button class="btn btn-warning">Supprimer</button></a></td>
+                    </tr>
+                    <?php
+                }
+                $reponse->closeCursor()
+                ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</section>
-<section id="listrecipes">
-    <table>
-        <thead>
-        <tr>
-            <th colspan="2">Recettes Marmitop</th>
-        </tr>
-        </thead>
-        <tbody>
-    <?php
-    try
-    {
-// On se connecte à MySQL
-        $bdd = new PDO('mysql:host=localhost;dbname=marmitop;charset=utf8', 'root', '5MichelAnnecy', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    }
-    catch(Exception $e)
-    {
-// En cas d'erreur, on affiche un message et on arrête tout
-        die('Erreur : '.$e->getMessage());
-    }
-    // On récupère tout le contenu de la table film
-    $reponse = $bdd->query('SELECT id,nom FROM recette');
-    // On affiche chaque entrée une à une
-    while ($donnees = $reponse->fetch())
-    {
-        ?>
-        <tr>
-            <td><?php echo $donnees['nom']?></td>
-            <td><a href="deleterecipe.php?id=<?php echo $donnees['id']?>">Supprimer</a></td>
-        </tr>
-        <?php
-    }
-    $reponse->closeCursor(); // Termine le traitement de la requête
-    ?>
-        </tbody>
-    </table>
-</section>
-<section id="form">
-    <h3>Ajouter une recette</h3>
-    <form action="/addrecipe.php" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="titre">Nom de la recette :</label>
-            <input type="text" id="nom" name="nom" required>
-        </div>
-        <div>
-            <label for="image">Image de la recette: </label>
-            <input type="file" id="image" name="image" required>
-        </div>
-        <div>
-            <label for="pays">Temps de préparation:</label>
-            <input type="time" id="tps_prep" name="tps_prep" required>
-        </div>
-        <div>
-            <label for="duree">Temps de cuisson:</label>
-            <input type="time" id="tps_cuisson" name="tps_cuisson" required>
-        </div>
-        <div>
-            <label for="real">Chef:</label>
-            <input type="text" id="chef" name="chef" required>
-        </div>
-        <div>
-            <label for="interpretes">citation:</label>
-            <input type="text" id="citation" name="citation" required>
-        </div>
-        <div>
-            <label for="synopsis">Lien vers la recette :</label>
-            <input type="text" id="url" name="url" required>
-        </div>
-        <div>
-            <label for="synopsis">Ingrédients :</label>
-            <textarea id="ingredients" name="ingredients" required></textarea>
-        </div>
-        <div>
-            <input type="submit" name="valid" value="Ajouter la recette" id="valid">
-        </div>
-    </form>
-</section>
+    <div class="row m-5 text-center">
+        <h2>Ajouter un film</h2>
+    </div>
+    <div class="row m-3 align-items-center">
+        <form action="addrecipe.php" method="post" enctype="multipart/form-data">
+            <div class="row mb-1 align-items-center">
+                <div class="col-2 text-end">
+                    <label class="col-form-label" for="titre">Nom de la recette :</label>
+                </div>
+                <div class="col-10">
+                    <input class="form-control" type="text" id="nom" name="nom" required>
+                </div>
+            </div>
+            <div class="row mb-1 align-items-center">
+                <div class="col-2 text-end">
+                    <label class="col-form-label" for="image">Image de la recette: </label>
+                </div>
+                <div class="col-10">
+                    <input class="form-control" type="file" id="image" name="image" required>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-2 text-end">
+                        <label class="col-form-label" for="tps_prep">Temps de préparation:</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control" type="time" id="tps_prep" name="tps_prep" required>
+                    </div>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-2 text-end">
+                        <label class="col-form-label" for="tps_cuisson">Temps de cuisson:</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control" type="time" id="tps_cuisson" name="tps_cuisson" required>
+                    </div>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-2 text-end">
+                        <label class="col-form-label" for="chef">Chef:</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control" type="text" id="chef" name="chef" required>
+                    </div>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-2 text-end">
+                        <label class="col-form-label" for="citation">citation:</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control" type="text" id="citation" name="citation" required>
+                    </div>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-2 text-end">
+                        <label class="col-form-label" for="url">Lien vers la recette :</label>
+                    </div>
+                    <div class="col-10">
+                        <input class="form-control" type="text" id="url" name="url" required>
+                    </div>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-2 text-end">
+                        <label class="col-form-label" for="ingredients">Ingrédients :</label>
+                    </div>
+                    <div class="col-10">
+                        <textarea class="form-control" id="ingredients" name="ingredients" required></textarea>
+                    </div>
+                </div>
+                <div class="row mb-1 align-items-center">
+                    <div class="col-12 text-end">
+                        <button class="btn btn-primary" name="valid" id="valid">Valider</button>
+                    </div>
+                </div>
+                <form>
+            </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
+

@@ -1,4 +1,12 @@
 <?php
+//str_contains n'existant qu'en PHP8, il faut déveloper une fonction spécifique si PHP7
+//str_contains_php7($chaine, $recherche)
+//recherche une chaine de caractères $recherche dans une autre chaine de caractères $chaine
+function str_contains_php7 ($chaine, $recherche)
+{
+    return empty($recherche) || strpos($chaine, $recherche) !== false;
+}
+
 //ajout de fichier affiche
 $target_dir = "img/recipes/";
 $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -9,7 +17,7 @@ if(isset($_POST["valid"])) {
     $message = 'Error uploading file';
     switch( $_FILES['image']['error'] ) {
         case UPLOAD_ERR_OK:
-            $message = false;;
+            $message = false;
             break;
         case UPLOAD_ERR_INI_SIZE:
         case UPLOAD_ERR_FORM_SIZE:
@@ -28,7 +36,7 @@ if(isset($_POST["valid"])) {
     if (!$message)
     {
         $check = mime_content_type($_FILES["image"]["tmp_name"]);
-        if(str_contains($check, 'image') == true) {
+        if(str_contains_php7($check, 'image') == true) {
             echo "File is an image - " . $check . ".";
             $uploadOk = 1;
         } else {
