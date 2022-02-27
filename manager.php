@@ -101,7 +101,6 @@
                         <button class="btn btn-primary" name="valid" id="valid">Valider</button>
                     </div>
                 </div>
-                <form>
             </div>
         </form>
     </div>
